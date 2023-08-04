@@ -34,6 +34,8 @@ datasources:
   version: 1
   editable: false
   jsonData:
+    # This will add a button next to the trace id for easy navigation to tempo.
+    # This will make it easy to switch from the log data to the trace data.
     derivedFields:
       - datasourceUid: tempo
         matcherRegex: "\u0022traceid\u0022:\u0022(\\w+)\u0022"

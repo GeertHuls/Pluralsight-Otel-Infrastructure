@@ -10,4 +10,9 @@ It consists out of a docker compose file setting up an observability environment
 - Grafana : used for all overviews through dashboards
 - RabbitMQ : as message queue for distributed message handling between the .NET projects
 
-The .NET projects can be found here [Pluralsight OTEL backend](https://github.com/Depechie/Pluralsight-Otel-Backend).
+The .NET projects can be found here [Pluralsight OTEL backend](https://github.com/geerthuls/Pluralsight-Otel-Backend).
+
+## Usage
+> docker compose -f docker-compose-win.yml up -d
+
+> docker compose -f docker-compose-win.yml down

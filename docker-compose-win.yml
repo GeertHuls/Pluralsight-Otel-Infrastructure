@@ -7,8 +7,8 @@ services:
     ports:
       - 9115:9115
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/lib/docker/volumes/pluralsightotel/blackbox/blackbox.yml:/etc/blackbox/blackbox.yml
+      - ./localtime:/etc/localtime:ro
+      - ./blackbox/blackbox.yml:/etc/blackbox/blackbox.yml
     command: --config.file=/etc/blackbox/blackbox.yml
     networks:
       otel:
@@ -22,9 +22,9 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/lib/docker/volumes/pluralsightotel/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - /var/lib/docker/volumes/pluralsightotel/prometheus:/prometheus
+      - ./localtime:/etc/localtime:ro
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
     depends_on:
       - blackbox
     networks:
@@ -36,9 +36,9 @@ services:
     container_name: tempo
     command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/lib/docker/volumes/pluralsightotel/tempo/tempo.yml:/etc/tempo.yaml
-      - /var/lib/docker/volumes/pluralsightotel/tempo:/tmp/tempo
+      - ./localtime:/etc/localtime:ro
+      - ./tempo/tempo.yml:/etc/tempo.yaml
+      - ./tempo:/tmp/tempo
     restart: unless-stopped
     ports:
       - 3200:3200  # tempo
@@ -54,9 +54,9 @@ services:
     container_name: loki
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
-      - /etc/localtime:/etc/localtime:ro      
-      - /var/lib/docker/volumes/pluralsightotel/loki/loki.yml:/etc/loki/local-config.yaml
-      - /var/lib/docker/volumes/pluralsightotel/loki:/data/loki
+      - ./localtime:/etc/localtime:ro      
+      - ./loki/loki.yml:/etc/loki/local-config.yaml
+      - ./loki:/data/loki
     restart: unless-stopped
     ports:
       - 3100:3100
@@ -72,9 +72,9 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/lib/docker/volumes/pluralsightotel/grafana/data:/var/lib/grafana
-      - /var/lib/docker/volumes/pluralsightotel/grafana/provisioning:/etc/grafana/provisioning
+      - ./localtime:/etc/localtime:ro
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
     user: root
     ports:
@@ -93,7 +93,7 @@ services:
     image: otel/opentelemetry-collector-contrib:0.75.0
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
-      - /var/lib/docker/volumes/pluralsightotel/otel/otel.yml:/etc/otel-collector-config.yaml
+      - ./otel/otel.yml:/etc/otel-collector-config.yaml
     restart: unless-stopped
     ports:
       - 8888:8888   # Prometheus metrics exposed by the collector
